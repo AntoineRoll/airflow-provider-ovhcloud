@@ -5,6 +5,7 @@ from typing import Any, Tuple
 import ovh
 
 from airflow.hooks.base import BaseHook
+from functools import cached_property
 
 
 class OvhcloudApiHook(BaseHook):
@@ -60,11 +61,13 @@ class OvhcloudApiHook(BaseHook):
         self.application_key = None
         self.application_secret = None
         self.consumer_key = None
+        
+    @cached_property
+    def conn(self) -> ovh.Client:
+        """Get the underlying OVH client and cache it
 
-    def get_conn(self, ) -> ovh.Client:
-        """
-        Returns ovh.Client to use for further requests.
-
+        Returns:
+            ovh.Client: The OVH client with credentials from self.ovhcloud_conn_id
         """
 
         if self.ovhcloud_conn_id:
@@ -83,6 +86,12 @@ class OvhcloudApiHook(BaseHook):
             )            
 
         return ovh_client
+
+    def get_conn(self) -> ovh.Client:
+        """
+        Returns an ovh.Client to use for further requests.
+        """
+        return self.conn
 
 
     def test_connection(self) -> Tuple[bool, str]:

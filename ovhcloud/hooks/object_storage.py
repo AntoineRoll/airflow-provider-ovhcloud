@@ -8,6 +8,7 @@ import boto3.session
 from airflow.hooks.base import BaseHook
 
 import boto3
+from functools import cached_property
 
 
 class ObjectStorageHook(BaseHook):
@@ -61,10 +62,13 @@ class ObjectStorageHook(BaseHook):
             "relabeling": {},
             "placeholders": {},
         }
+        
+    @cached_property
+    def conn(self) -> boto3.session.Session.client:
+        """Get the underlying boto3 client and cache it
 
-    def get_conn(self) -> boto3.session.Session.client:
-        """
-        Returns boto3 S3 client
+        Returns:
+            boto3.session.Session.client: The boto3 client with 
         """
 
         if self.objectstorage_conn_id:
@@ -84,6 +88,13 @@ class ObjectStorageHook(BaseHook):
         )
 
         return client
+        
+
+    def get_conn(self) -> boto3.session.Session.client:
+        """
+        Returns boto3 S3 client
+        """
+        return self.conn
 
     def test_connection(self) -> tuple[bool, str]:
         """Test Object Storage connectivity from UI."""
