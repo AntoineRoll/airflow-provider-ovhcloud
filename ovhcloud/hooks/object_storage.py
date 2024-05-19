@@ -86,7 +86,7 @@ class ObjectStorageHook(BaseHook):
         return client
 
     def test_connection(self) -> tuple[bool, str]:
-        """Test SMTP connectivity from UI."""
+        """Test Object Storage connectivity from UI."""
         try:
             s3_client = self.get_conn()
             response = s3_client.list_buckets()
