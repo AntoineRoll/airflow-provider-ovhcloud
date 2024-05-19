@@ -12,7 +12,6 @@ if TYPE_CHECKING:
 
 
 class SampleOperatorExtraLink(BaseOperatorLink):
-
     name = "Astronomer Registry"
 
     def get_link(self, operator: BaseOperator, *, ti_key=None):
@@ -66,7 +65,9 @@ class SampleOperator(BaseOperator):
         self.data = data or {}
         self.extra_options = extra_options or {}
         if kwargs.get("xcom_push") is not None:
-            raise AirflowException("'xcom_push' was deprecated, use 'BaseOperator.do_xcom_push' instead")
+            raise AirflowException(
+                "'xcom_push' was deprecated, use 'BaseOperator.do_xcom_push' instead"
+            )
 
     def execute(self, context: Context) -> Any:
         hook = SampleHook(self.method, sample_conn_id=self.sample_conn_id)

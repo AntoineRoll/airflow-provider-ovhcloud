@@ -1,6 +1,5 @@
-from pendulum import datetime
-
 from airflow.decorators import dag
+from pendulum import datetime
 
 from ovhcloud.operators.sample import SampleOperator
 from ovhcloud.sensors.sample import SampleSensor

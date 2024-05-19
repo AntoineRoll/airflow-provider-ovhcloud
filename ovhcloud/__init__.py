@@ -1,5 +1,6 @@
 __version__ = "0.1.0"
 
+
 ## This is needed to allow Airflow to pick up specific metadata fields it needs for certain features.
 def get_provider_info():
     return {
@@ -9,7 +10,7 @@ def get_provider_info():
         "connection-types": [
             {
                 "connection-type": "objectstorage",
-                "hook-class-name": "ovhcloud.hooks.object_storage.ObjectStorageHook"
+                "hook-class-name": "ovhcloud.hooks.object_storage.ObjectStorageHook",
             }
         ],
         # "extra-links": ["sample_provider.operators.sample.SampleOperatorExtraLink"],

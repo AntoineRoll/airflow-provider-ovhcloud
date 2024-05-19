@@ -3,9 +3,8 @@ from __future__ import annotations
 from typing import Any, Tuple
 
 import requests
-from requests.auth import HTTPBasicAuth
-
 from airflow.hooks.base import BaseHook
+from requests.auth import HTTPBasicAuth
 
 
 class SampleHook(BaseHook):
@@ -30,13 +29,20 @@ class SampleHook(BaseHook):
     @staticmethod
     def get_connection_form_widgets() -> dict[str, Any]:
         """Returns connection widgets to add to connection form"""
-        from flask_appbuilder.fieldwidgets import BS3PasswordFieldWidget, BS3TextFieldWidget
+        from flask_appbuilder.fieldwidgets import (
+            BS3PasswordFieldWidget,
+            BS3TextFieldWidget,
+        )
         from flask_babel import lazy_gettext
         from wtforms import PasswordField, StringField
 
         return {
-            "account": StringField(lazy_gettext("Account"), widget=BS3TextFieldWidget()),
-            "secret_key": PasswordField(lazy_gettext("Secret Key"), widget=BS3PasswordFieldWidget()),
+            "account": StringField(
+                lazy_gettext("Account"), widget=BS3TextFieldWidget()
+            ),
+            "secret_key": PasswordField(
+                lazy_gettext("Secret Key"), widget=BS3PasswordFieldWidget()
+            ),
         }
 
     @staticmethod
@@ -100,7 +106,9 @@ class SampleHook(BaseHook):
                 try:
                     session.headers.update(conn.extra_dejson)
                 except TypeError:
-                    self.log.warning("Connection to %s has invalid extra field.", conn.host)
+                    self.log.warning(
+                        "Connection to %s has invalid extra field.", conn.host
+                    )
         if headers:
             session.headers.update(headers)
 
@@ -126,7 +134,12 @@ class SampleHook(BaseHook):
 
         session = self.get_conn(headers)
 
-        if self.base_url and not self.base_url.endswith("/") and endpoint and not endpoint.startswith("/"):
+        if (
+            self.base_url
+            and not self.base_url.endswith("/")
+            and endpoint
+            and not endpoint.startswith("/")
+        ):
             url = self.base_url + "/" + endpoint
         else:
             url = (self.base_url or "") + (endpoint or "")

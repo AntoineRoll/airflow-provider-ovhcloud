@@ -1,11 +1,10 @@
 from __future__ import annotations
 
+from functools import cached_property
 from typing import Any, Tuple
 
 import ovh
-
 from airflow.hooks.base import BaseHook
-from functools import cached_property
 
 
 class OvhcloudApiHook(BaseHook):
@@ -22,7 +21,10 @@ class OvhcloudApiHook(BaseHook):
     @staticmethod
     def get_connection_form_widgets() -> dict[str, Any]:
         """Returns connection widgets to add to connection form"""
-        from flask_appbuilder.fieldwidgets import BS3PasswordFieldWidget, BS3TextFieldWidget
+        from flask_appbuilder.fieldwidgets import (
+            BS3PasswordFieldWidget,
+            BS3TextFieldWidget,
+        )
         from flask_babel import lazy_gettext
         from wtforms import PasswordField, StringField
 
@@ -38,7 +40,7 @@ class OvhcloudApiHook(BaseHook):
             ),
             "consumer_key": PasswordField(
                 lazy_gettext("Consumer Key"), widget=BS3PasswordFieldWidget()
-            )
+            ),
         }
 
     @staticmethod
@@ -61,7 +63,7 @@ class OvhcloudApiHook(BaseHook):
         self.application_key = None
         self.application_secret = None
         self.consumer_key = None
-        
+
     @cached_property
     def conn(self) -> ovh.Client:
         """Get the underlying OVH client and cache it
@@ -72,18 +74,18 @@ class OvhcloudApiHook(BaseHook):
 
         if self.ovhcloud_conn_id:
             conn = self.get_connection(self.ovhcloud_conn_id)
-            
-            self.endpoint = conn.extra_dejson['endpoint']
-            self.application_key = conn.extra_dejson['application_key']
-            self.application_secret = conn.extra_dejson['application_secret']
-            self.consumer_key = conn.extra_dejson['consumer_key']
-            
+
+            self.endpoint = conn.extra_dejson["endpoint"]
+            self.application_key = conn.extra_dejson["application_key"]
+            self.application_secret = conn.extra_dejson["application_secret"]
+            self.consumer_key = conn.extra_dejson["consumer_key"]
+
             ovh_client = ovh.Client(
                 self.endpoint,
                 self.application_key,
                 self.application_secret,
-                self.consumer_key
-            )            
+                self.consumer_key,
+            )
 
         return ovh_client
 
@@ -93,12 +95,11 @@ class OvhcloudApiHook(BaseHook):
         """
         return self.conn
 
-
     def test_connection(self) -> Tuple[bool, str]:
         """Test a connection"""
         client = self.get_conn()
         try:
-            response = client.get('/me')
+            response = client.get("/me")
             return True, "Connection successfully tested"
         # except ovh.exceptions.APIError as api_error:
         #     return False, 'Requested /me. ' + str(api_error)
