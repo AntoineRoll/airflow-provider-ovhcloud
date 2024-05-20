@@ -46,7 +46,6 @@ class LoadObjectOperator(BaseOperator):
 
     def execute(self, context):
         from io import BytesIO
-
         import botocore.exceptions
 
         object_storage_hook = ObjectStorageHook(self.objectstorage_conn_id)
