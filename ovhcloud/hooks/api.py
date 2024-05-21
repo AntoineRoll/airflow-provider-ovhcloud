@@ -80,7 +80,7 @@ class OvhcloudApiHook(BaseHook):
             self.application_key = conn.extra_dejson.get("application_key")
             self.application_secret = conn.extra_dejson.get("application_secret")
             self.consumer_key = conn.extra_dejson.get("consumer_key")
-            
+
             self.cloud_project_id = conn.extra_dejson.get("cloud_project_id", None)
 
             ovh_client = ovh.Client(
@@ -108,27 +108,17 @@ class OvhcloudApiHook(BaseHook):
         #     return False, 'Requested /me. ' + str(api_error)
         except Exception as exception:
             return False, str(exception)
-        
-    def cloud_request(
-        self,
-        method: str,
-        cloud_endpoint: str,
-        data: dict
-        ):
+
+    def cloud_request(self, method: str, cloud_endpoint: str, data: dict):
         if self.cloud_project_id is not None:
             raise ValueError("Cloud Project ID must be defined.")
-        
+
         endpoint = os.path.join(
-            f'/cloud/project/{self.cloud_project_id}/',
-            cloud_endpoint
+            f"/cloud/project/{self.cloud_project_id}/", cloud_endpoint
         )
-        
-        return self.conn.call(
-            method,
-            endpoint,
-            data=data
-        )
-        
+
+        return self.conn.call(method, endpoint, data=data)
+
     def create_ai_training_job(
         self,
         job_name: str,
