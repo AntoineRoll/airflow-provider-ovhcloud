@@ -12,7 +12,7 @@ class LoadObjectOperator(BaseOperator):
     def __init__(
         self,
         *,
-        container: Optional[str] = None,
+        container: str,
         key: str,
         filename: Optional[str] = None,
         data: Optional[Union[str, bytes]] = None,
@@ -88,8 +88,8 @@ class ListKeysOperator(BaseOperator):
     def __init__(
         self,
         *,
-        container: Optional[str] = None,
-        prefix: str,
+        container: Optional[str],
+        prefix: str = "",
         objectstorage_conn_id: str = "objectstorage_default",
         **kwargs,
     ):
