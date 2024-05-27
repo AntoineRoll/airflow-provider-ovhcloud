@@ -25,7 +25,7 @@ class AiTrainingJobOperator(BaseOperator):
         self,
         docker_image: str,
         command: list[str],
-        resources: dict,
+        job_resources: dict,
         job_name: str,
         volumes: list[dict],
         region: str,
@@ -43,7 +43,7 @@ class AiTrainingJobOperator(BaseOperator):
 
         self.docker_image = docker_image
         self.command = command
-        self.job_resources = resources
+        self.job_resources = job_resources
 
         self.job_name = job_name
         self.volumes = volumes
