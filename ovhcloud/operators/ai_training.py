@@ -6,7 +6,7 @@ from ovhcloud.hooks.api import OvhcloudApiHook
 
 class AiTrainingJobOperator(BaseOperator):
 
-    render_templates = (
+    template_fields = (
         "job_name",
         "docker_image",
         "command",
