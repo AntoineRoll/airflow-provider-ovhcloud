@@ -64,6 +64,7 @@ class OvhcloudApiHook(BaseHook):
         self.application_key = None
         self.application_secret = None
         self.consumer_key = None
+        self.cloud_project_id = None
 
     @cached_property
     def conn(self) -> ovh.Client:
@@ -81,7 +82,11 @@ class OvhcloudApiHook(BaseHook):
             self.application_secret = conn.extra_dejson.get("application_secret")
             self.consumer_key = conn.extra_dejson.get("consumer_key")
 
-            self.cloud_project_id = conn.extra_dejson.get("cloud_project_id", None)
+            # Dirty 
+            self.cloud_project_id = conn.extra_dejson.get(
+                "cloud_project_id",
+                self.cloud_project_id
+            )
 
             ovh_client = ovh.Client(
                 self.endpoint,
@@ -110,7 +115,7 @@ class OvhcloudApiHook(BaseHook):
             return False, str(exception)
 
     def cloud_request(self, method: str, cloud_endpoint: str, data: dict):
-        if self.cloud_project_id is not None:
+        if self.cloud_project_id is None:
             raise ValueError("Cloud Project ID must be defined.")
 
         endpoint = os.path.join(
