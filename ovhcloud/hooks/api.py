@@ -7,11 +7,11 @@ from typing import Any, Tuple
 import ovh
 from airflow.hooks.base import BaseHook
 
+AI_JOB_ENDPOINT = ("POST", "ai/job")
 
 class OvhcloudApiHook(BaseHook):
     """
     Hook that interacts with OVHcloud API endpoints with the ovh Python SDK.
-
     """
 
     conn_name_attr = "ovhcloud_conn_id"
@@ -121,12 +121,20 @@ class OvhcloudApiHook(BaseHook):
 
     def create_ai_training_job(
         self,
-        job_name: str,
-        flavor: str,
-        resource_type: str,
-        resource_number: int,
-        docker_image: str,
-        command: str,
-        tags: dict,
+        payload: dict,
+        # job_name: str,
+        # flavor: str,
+        # resource_type: str,
+        # resource_number: int,
+        # docker_image: str,
+        # command: str,
+        # labels: list[dict[str, str]],
     ):
-        ...
+        
+        response = self.cloud_request(
+            method=AI_JOB_ENDPOINT[0],
+            cloud_endpoint=AI_JOB_ENDPOINT[1],
+            data=payload
+        )
+
+        return response
