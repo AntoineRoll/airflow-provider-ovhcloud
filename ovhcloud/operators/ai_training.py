@@ -43,7 +43,7 @@ class AiTrainingJobOperator(BaseOperator):
 
         self.docker_image = docker_image
         self.command = command
-        self.resources = resources
+        self.job_resources = resources
 
         self.job_name = job_name
         self.volumes = volumes
@@ -61,7 +61,7 @@ class AiTrainingJobOperator(BaseOperator):
         job_payload = {
             "image": self.docker_image,
             "command": self.command,
-            "resources": self.resources,
+            "resources": self.job_resources,
             "name": self.job_name,
             "volumes": self.volumes,
             "region": self.region,
