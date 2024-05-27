@@ -23,7 +23,8 @@ dynamic = [
 requires-python = "~=3.8"
 dependencies = [
     "apache-airflow>=2.8",
-    "boto3"
+    "boto3",
+    "python-ovh"
 ]
 
 [project.urls]
