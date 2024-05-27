@@ -15,6 +15,12 @@ class AiTrainingJobOperator(BaseOperator):
         "region"
     )
 
+    template_fields_renderers = {
+        "resources": "json",
+        "command": "json",
+        "volumes": "json"
+    }
+
     def __init__(
         self,
         docker_image: str,
