@@ -41,8 +41,8 @@ class AiTrainingJobOperator(BaseOperator):
 
         self.job_name = job_name
         self.volumes = volumes
-        self.labels = labels | {}
-        self.environment_variables = environment_variables | []
+        self.labels = labels or {}
+        self.environment_variables = environment_variables or []
 
     def execute(self, context):
         ovh_api_hook = OvhcloudApiHook(ovhcloud_conn_id=self.conn_id)
