@@ -6,20 +6,20 @@ from ovhcloud.hooks.api import OvhcloudApiHook
 
 class AiTrainingJobOperator(BaseOperator):
 
-    template_fields = (
-        "job_name",
-        "docker_image",
-        # "command",
-        # "resources",
-        # "volumes",
-        "region"
-    )
+    # template_fields = (
+    #     "job_name",
+    #     "docker_image",
+    #     "command",
+    #     "resources",
+    #     "volumes",
+    #     "region"
+    # )
 
-    template_fields_renderers = {
-        "resources": "json",
-        "command": "json",
-        "volumes": "json"
-    }
+    # template_fields_renderers = {
+    #     "resources": "json",
+    #     "command": "json",
+    #     "volumes": "json"
+    # }
 
     def __init__(
         self,
