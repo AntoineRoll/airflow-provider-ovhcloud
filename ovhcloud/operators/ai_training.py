@@ -9,9 +9,9 @@ class AiTrainingJobOperator(BaseOperator):
     template_fields = (
         "job_name",
         "docker_image",
-        "command",
-        "resources",
-        "volumes",
+        # "command",
+        # "resources",
+        # "volumes",
         "region"
     )
 
