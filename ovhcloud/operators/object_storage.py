@@ -70,7 +70,7 @@ class LoadObjectOperator(BaseOperator):
 
         if self.filename:
             client.upload_file(
-                Filename=self.filename, Bucket=self.container, key=self.key
+                Filename=self.filename, Bucket=self.container, Key=self.key
             )
             return
 
